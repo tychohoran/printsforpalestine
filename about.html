@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_self">
+    <style>
+
+      /* GENERAL */
+
+      body, html {
+        font-family: Arial, san-serif;
+        position: relative;
+        font-size: 15px;
+        margin: 0;
+      }
+
+      /* FRAME */
+
+      .wrapper, .background{
+        position: relative;
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-sizing: border-box;
+		  }
+      .wrapper{
+			  padding: 1rem;
+			  background-color: white;
+		  }
+      .background{
+        background-image: url("https://binchqaw.studio/palestine/Animated-Flag-Palestine_3.gif");
+        padding: 2rem 4rem;
+        background-size: 4rem;
+        background-repeat: round;
+      }
+
+      /* TITLE */
+
+      .site-title, .site-subtitle {
+        font-size: min(15vw, 6.25rem);
+        text-transform: uppercase;
+        font-weight: bold;
+        line-height: 1;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        margin-top: 1rem;
+        letter-spacing: -0.04em;
+      }
+      h2.site-subtitle {
+        font-size: min(2.5rem, 3.5vw);
+        letter-spacing: 0.02em;
+        line-height: 1em;
+        margin-top: 0;
+        text-transform: none;
+        margin-bottom: 0.75rem;
+        font-weight: normal;
+      }
+
+      /* NAVIGATION */
+
+      nav.site-nav {
+        position: relative;
+        width: 100%;
+        background-color: transparent;
+        color: white;
+        font-size: 1.25rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 1.25rem;
+        box-sizing: border-box;
+        overflow: hidden;
+        border: 1.5px solid black;
+      }
+      .nav-link{
+        position: relative;
+        color: black;
+        background-color:white;
+        padding: 0.5rem 1.5rem;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        box-sizing: border-box;
+        flex: 1;
+      }
+
+      .nav-link:hover {
+        background-color: black;
+        color: white;
+      }
+
+      input.index-check{
+        position: absolute;
+        width: 25%;
+        left:25%;
+        height:100%;
+        opacity:0;
+        z-index:5;
+        margin:0;
+      }
+
+      input#artist-toggle:checked ~ div.artist-index {
+        display: block;
+      }
+      input#artist-toggle:checked ~ div#artist-index-button {
+        background-color: black;
+        color: white;
+      }
+      input#artist-toggle:hover ~ div#artist-index-button {
+        background-color: black;
+        color: white;
+      }
+
+      .artist-index{
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        column-count: 3;
+        padding: 0.75rem calc(100% - (66.666% + 280px) - 75px) 0.75rem calc(100% - (66.666% + 280px) + 75px);
+        background-color: black;
+        display:none;
+        z-index: 10;
+      }
+      .artist-index-item {
+        display:block;
+        color: white;
+        text-decoration: none;
+        line-height: 1.25;
+      }
+
+      /* AUCTION ITEMS */
+
+      .auction-list {
+        position: relative;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .auction-item{
+        margin: 0.75rem;
+        margin-top: 3rem;
+        position:relative;
+        text-align: center;
+        height: auto;
+        width: calc(25% - 1.5rem);
+        min-width: 300px;
+        display: flex;
+        flex-flow: column;
+      }
+
+      .auction-item > * {
+        background-color: black;
+        color: white;
+      }
+
+      /* .auction-item.preview > .bid-button {
+        background-color: white;
+        color: black;
+        border: 1.5px solid black;
+      } */
+
+      .auction-item.open-to-bidding > * {
+        background-color: green;
+      }
+
+      .auction-item.open-to-bidding > .bid-button {
+        border: 1.5px solid green;
+      }
+
+
+      .auction-item.closed-to-bidding > * {
+        background-color: #ED2F39;
+      }
+
+      .auction-item.closed-to-bidding > .bid-button {
+        border: 1.5px solid #ED2F39;
+      }
+
+      /* IMAGE */
+
+      .image-block{
+        border-radius: 40px 40px 0 0;
+        overflow:hidden;
+        position:relative;
+      }
+      .item-image {
+        height: auto;
+        width: 100%;
+        max-height: 350px;
+        min-height: 300px;
+        object-fit: cover;
+        background-color: white;
+      }
+      /* .auction-item:hover .item-image{
+        filter: blur(4px);
+      } */
+
+      /* DESCRIPTION */
+
+      .auction-item .item-description{
+        position:absolute;
+        box-sizing: border-box;
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+        margin:0;
+        padding: 1.5rem;
+        font-size: 1rem;
+        background-color: rgba(0, 0, 0, .5);
+        background-blend-mode: multiply;
+        opacity: 0;
+        color:white;
+      }
+      .item-description *{
+        text-align: left;
+        margin: 0;
+        margin-bottom: 1rem;
+      }
+      .description-number{
+        font-size:1.5rem;
+      }
+      .description-text, .description-dim {
+        text-align:left;
+      }
+      .item-description a{
+        color:white;
+      }
+      .item-description a:hover{
+        color:#FF5555;
+      }
+      .item-description:hover{
+        opacity: 1;
+      }
+
+      /* BIDDING */
+
+      .bid-button{
+        position: absolute;
+        right: 0;
+        top: -1rem;
+        padding: 0.5rem 1.5rem;
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        border-radius: 1.25rem / 50%;
+        box-sizing: border-box;
+        z-index: 20;
+        color: white;
+        text-decoration: none;
+        font-size: 1.25rem;
+        border: 1.5px solid black;
+      }
+      input#bid-toggle {
+          width: 33.333%;
+          height: 2.5rem;
+          margin: 0;
+          z-index: 30;
+          opacity: 0;
+      }
+      input#bid-toggle:hover ~ div.bid-button{
+        background-color: white;
+        border: 1.5px solid green;
+        color: green;
+      }
+
+      input#bid-toggle:checked ~ form.bid-form{
+        display: flex;
+      }
+
+      input#bid-toggle:checked ~ div.bid-button{
+        opacity: 0;
+      }
+      
+      input#toggle {
+        width: 4rem;
+        bottom: 0.5rem;
+        
+      }
+      input#toggle:checked ~ .item-description {
+          opacity: 1;
+      }
+      input#toggle:checked ~ .more-info-text::after {
+        content: "Less Info";
+      }
+      .more-info{
+        position: absolute;
+        bottom: 0.75rem;
+        right: 0.75rem;
+        display: block;
+        z-index: 10;
+        color: white;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        text-align: right;
+        text-decoration: none;
+        background-color: transparent;
+        /* height: 0; */
+      }
+      .visually-hidden {
+        opacity: 0;
+      }
+      .more-info-text{
+        pointer-events: none;
+      }
+      .more-info-text::after {
+        content: "More Info";
+      }
+
+      /* BOTTOM PILL */
+
+      .item-lower-menu {
+        position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
+        top: auto;
+        bottom: 0;
+        border-radius: 0 0 40px 40px;
+        color: white;
+        text-align: left;
+        padding: 1rem 2rem;
+        box-sizing: border-box;
+        justify-content: space-between;
+        z-index: 10;
+      }
+      h2.item-title{
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1;
+        text-transform: capitalize;
+        font-weight: normal;
+      }
+      a.item-artist {
+        margin: 0;
+        font-size: 0.75rem;
+        line-height: 1.25;
+        margin-top:.25rem;
+        text-transform: uppercase;
+        color: white;
+        text-decoration: none;
+      }
+      a.item-artist:hover {
+        color: #FF5555;
+      }
+      .item-info {
+        display: flex;
+        flex-flow: column;
+        justify-content: end;
+        padding-right: 0.5rem;
+      }
+      .item-price {
+        min-width: 85px;
+        padding-left: 0.75rem;
+        border-left: 1.5px solid white;
+        display: flex;
+        flex-flow: column;
+        justify-content: end;
+      }
+      span.bid-status {
+          font-size: .75rem;
+          display: block;
+          text-transform: uppercase;
+          text-align: left;
+          line-height: 1.25;
+          margin-top:.25rem;
+      }
+      span.bid-amount {
+          font-size: 1.25rem;
+          display: block;
+          text-align: left;
+      }
+
+      form.bid-form {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          margin: 0;
+          padding: 1.25rem 3rem;
+          background-color: black !important;
+          z-index: 20;
+          display: none;
+          flex-flow: column nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          color: white;
+          border-radius: 40px;
+      }
+      div.form-group {
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-flow: row wrap;
+          box-sizing: border-box;
+          width: 100%;
+          width: calc(100% - 3rem);
+          max-width: 300px;
+          margin-top: 0.75rem;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          position: relative;
+      }
+      label.form-label {
+          margin-bottom: 0.25rem;
+      }
+      .form-input {
+          width: 100%;
+          font-size: 1.25rem;
+          padding: 0.25rem;
+          background: black;
+          color: white;
+          border: solid 1.5px white;
+          border-radius: 0.25rem;
+      }
+      span.currency {
+        font-size: 1.25rem;
+        position: absolute;
+        bottom: 0;
+        padding: 0.25rem;
+        border: solid 1.5px transparent;
+        box-sizing: border-box;
+      }
+      input#bid {
+          padding-left: 1rem;
+      }
+      button.submit-form {
+          font-size: 1.25rem;
+          background-color: black;
+          padding: 0.5rem 1.5rem;
+          border: solid 1.5px;
+          border-radius: 1.5rem;
+          color: white;
+      }
+
+
+      div.body-container {
+        box-sizing: border-box;
+        position: relative;
+        max-width: 500px;
+        margin: auto;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        padding-top: 1.5rem;
+        letter-spacing: .025rem;
+      }
+
+      div.body-container strong, div.body-container a {
+        font-weight: normal;
+        text-decoration: underline;
+        color: black;
+        /*display: inline-block;
+        border: solid 1.5px black;
+        background: black;
+        color: white;
+        padding: 0 0.75rem;
+        border-radius: 1.25rem;*/
+      }
+      div.body-container a:hover {
+        background: white;
+        color: black;
+      }
+      h2.body-header{
+        font-size: 1.25rem;
+/*        font-weight: 800;*/
+        text-align: center;
+        width: 100%;
+/*        text-transform: uppercase;*/
+        font-weight: normal;
+        position: relative;
+        border: solid 1.5px black;
+        padding: 0.5rem 0;
+        border-radius: 2.5rem;
+        line-height: initial;
+        box-sizing: border-box;
+        margin-top: 2.5rem;
+        background-color: black;
+        color: white;
+      }
+
+
+
+      @media screen and (max-width: 1440px) {
+        .auction-item{
+          width: calc(33.3333333% - 1.5rem);
+          min-width: 250px;
+          margin: 0.75rem;
+          margin-top: 3rem;
+        }
+        .item-image{
+          max-height: 400px;
+        }
+        h2.item-title, span.bid-amount {
+          font-size: 1.25rem;
+        }
+      }
+      @media screen and (max-width: 970px) {
+        .auction-item{
+          width: calc(50% - 1.5rem);
+          margin-top: 3rem;
+        }
+        .item-image{
+          max-height: none;
+        }
+        .nav-link span{
+          display:none;
+        }
+        .artist-index{
+          column-count: 2;
+          padding: 0.75rem 3rem 0.75rem 3rem;
+        }
+      }
+      @media screen and (max-width: 700px) {
+        h2.body-header{
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+        .body-text {
+          padding: 0 2.5rem;
+        }
+        div.body-container{
+          padding: 0;
+          width: 100%;
+          margin: 0;
+          max-width: 100%;
+        }
+        .auction-item{
+          width: calc(100% - 1.5rem);
+          margin-top: 2rem;
+        }
+        html{
+          font-size:20px;
+        }
+        .background{
+          padding: 2rem 0 0 0;
+        }
+        .wrapper{
+          padding: 0.5rem 0;
+        }
+        .site-title {
+          margin-top: 0px;
+        }
+        .item-lower-menu {
+          padding: 1rem 1.5rem;
+        }
+        .item-price {
+          min-width:105px;
+        }
+        .nav-link{
+          font-size: 0.75rem;
+          padding: 0.5rem;
+        }
+        nav.site-nav {
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+        h2.site-subtitle {
+          font-size:0.75rem;
+        }
+        .artist-index-item{
+          font-size:0.75rem;
+          line-height:1.5;
+        }
+        .artist-index{
+          padding: 0.75rem 1.5rem 0.75rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <div class="wrapper">
+
+        <!-- SITE TITLE -->
+        <!-- <h2 class="site-subtitle">Sunday October 22 - Friday October 27</h2> -->
+        <h1 class="site-title">Prints For Palestine</h1>
+        <h2 class="site-subtitle">An Art Auction for Healthcare Workers in Gaza</h2>
+          <!-- SITE MENU -->
+          <nav class="site-nav">
+            <a class="nav-link" href="https://binchqaw.studio/palestine/about.html" target="_BLANK">About<span>&nbsp;the Auction</span></a>
+            <div class="nav-link">Oct<span>ober</span> 22 - 27</div>
+            <a class="nav-link" href="https://www.map.org.uk/donate/donate">Donate<span>&nbsp;Directly</span></a>
+            <div class="artist-index">
+              <?var indexData = getSheetData('Index');?>
+              <?for(var i = 0; i <indexData.length;i++) { ?>
+                <a class="artist-index-item" href="#<?= indexData[i][1] ?>"><?= indexData[i][0] ?></a>
+              <? } ?>
+            </div>
+          </nav>
+          <div class="body-container">
+            <p class="body-text">
+              Prints for Palestine is an art auction organized to raise funds for <a href="https://www.map.org.uk/donate/donate">Medical Aid for Palestinians</a>,  an organization directly supporting Palestinian healthcare workers on the ground. All of the works featured in the auction were generously donated by more than 50 artists. Prints for Palestine will launch at 12pm on Sunday October 22nd and wil close at 12pm on <strong>Friday October 27th.</strong>
+            </p>
+            <h2 class="body-header">How Does it Work?</h2>
+            <p class="body-text">
+            </p>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>
