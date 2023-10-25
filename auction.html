@@ -14,7 +14,7 @@
 			font-family: Arial, sans-serif;
 			font-size: 15px;
 		}
-		iframe{
+		iframe, div.loading{
 			position: absolute;
 			margin: 0;
 			padding: 0;
@@ -27,9 +27,19 @@
 			border: none;
 			box-sizing: border-box;
 		}
+		div.loading {
+			display: flex;
+			flex-flow: column nowrap;
+			justify-content: center;
+			align-items: center;
+		}
 	</style>
 </head>
 <body>
-			<iframe src="https://script.google.com/macros/s/AKfycbzsUs1jqCB2Udjj9pgtYsyc64aPr87sO63NIpUSyOodfkXlElaS55qhbRRyVzi4c-io/exec"></iframe>
+	<div class="loading">
+		<img class="loading-flag" src="Animated-Flag-Palestine.gif" alt="Animated GIF of a Palestinina Flag">
+		<h2 style="font-weight: normal;">LOADING...</h2>
+	</div>
+	<iframe src="https://script.google.com/macros/s/AKfycbzsUs1jqCB2Udjj9pgtYsyc64aPr87sO63NIpUSyOodfkXlElaS55qhbRRyVzi4c-io/exec"></iframe>
 </body>
 </html>
